@@ -1,0 +1,20 @@
+{
+    "collab_server" : "",
+    "contents" : "cross_validate<-function(df,dep,N,ss,sr)\n{\n  library(\"caTools\")\n  library(\"rpart\")\n  set.seed(ss)\n  spl <- sample.split(df[,dep], SplitRatio = sr)\n  #Randomly splits into two subsets 0.7 and 0.3 of the original file\n  #into training and testing\n  train <- subset(df, spl == TRUE)\n  testing <- subset(df, spl ==FALSE)\n  #We will compare two models- predictor\n  indep=list()\n  print(\"Enter the independent variables\")\n  i<-1\n  while(i<=N){\n    str=readline()\n    indep[[i]]<-str\n    i<-i+1\n  }\n  b <- paste(indep, collapse =\"+\")\n  first.tree<-rpart(as.formula(paste(dep,b,sep=\"~\")),data=train)\n  second.tree<-rpart(as.formula(paste(dep,'.',sep=\"~\")), data=train)\n  pred1.tree<-predict(first.tree,newdata=testing, type='class')\n  pred2.tree<-predict(second.tree, newdata=testing, type='class')\n  mean1<-mean(pred1.tree==testing[,dep])\n  mean2<-mean(pred2.tree==testing[,dep])\n\n  return(c(mean1,mean2))\n\n}\n",
+    "created" : 1486658926743.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "2985282700",
+    "id" : "6B3C6711",
+    "lastKnownWriteTime" : 1486658931,
+    "last_content_update" : 1486658931448,
+    "path" : "C:/Users/dDev/Desktop/temp/CrossValidation/R/hello.R",
+    "project_path" : "R/hello.R",
+    "properties" : {
+    },
+    "relative_order" : 1,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}
