@@ -15,8 +15,14 @@ cross_validate<-function(df,dep,indep,n_iter,contro, sr)
   #into training and testing
   train <- subset(df, spl == TRUE)
   testing <- subset(df, spl ==FALSE)
+   if(missing(contro)){
+    first.tree<-rpart(relation_subset,data=train)
+    second.tree<-rpart(relation_all, data=train)
+  }
+  else{
   first.tree<-rpart(relation_subset,data=train,control=contro)
   second.tree<-rpart(relation_all, data=train,control=contro)
+  }
   pred1.tree<-predict(first.tree,newdata=testing, type='class')
   pred2.tree<-predict(second.tree, newdata=testing, type='class')
   mean1<-mean(pred1.tree==testing[,dep])
