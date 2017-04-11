@@ -1,16 +1,9 @@
-cross_validate<-function(df,dep,n_indep,n_iter,sr)
+cross_validate<-function(df,dep,indep,n_iter,sr)
 {
   library("caTools")
   library("rpart")
   #We will compare two models- predictor
-  indep=list()
-  print("Enter the independent variables")
-  i<-1
-  while(i<=n_indep){
-    str=readline()
-    indep[[i]]<-str
-    i<-i+1
-  }
+  indep<-as.list(indep)
   b <- paste(indep, collapse ="+")
   mean_subset<-c();
   mean_all<-c();
