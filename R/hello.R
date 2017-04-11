@@ -1,4 +1,4 @@
-cross_validate1<-function(df,dep,n_indep,n_iter,sr)
+cross_validate<-function(df,dep,n_indep,n_iter,sr)
 {
   library("caTools")
   library("rpart")
