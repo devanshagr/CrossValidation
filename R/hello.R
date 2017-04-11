@@ -21,8 +21,8 @@ cross_validate<-function(df,dep,indep,n_iter,sr)
   pred2.tree<-predict(second.tree, newdata=testing, type='class')
   mean1<-mean(pred1.tree==testing[,dep])
   mean2<-mean(pred2.tree==testing[,dep])
-  mean_subset<-c(mean_subset,mean1);
-  mean_all<-c(mean_all,mean2);
+  mean_subset<-c(mean_subset,mean1)
+  mean_all<-c(mean_all,mean2)
   } 
-  return (c(mean(mean_subset),mean(mean_all)))
+  return (data.frame(mean_subset, mean_all))
 }
