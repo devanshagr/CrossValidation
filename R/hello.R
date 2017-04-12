@@ -5,14 +5,24 @@ cross_validate<-function(df,tree,n_iter,sr)
   #We will compare two models- predictor
   mean_subset<-c();
   mean_all<-c();
+  contro=tree$control
   dep<-all.vars(terms(tree))[1]
+  indep<-list()
   relation_all=as.formula(paste(dep,'.',sep="~"))
+  i<-1
+  while(i<length(all.vars(terms(tree)))){
+    indep[[i]]<-all.vars(terms(tree))[i+1]
+    i<-i+1
+  }
+  b <- paste(indep, collapse ="+")
+  relation_subset<-as.formula(paste(dep,b,sep="~"))
   for(i in 1:n_iter){
   sample <- sample.int(n = nrow(df), size = floor(sr*nrow(df)), replace = F)
   train <- df[sample, ]
   testing  <- df[-sample, ]
+  first.tree<-rpart(relation_subset, data=train, control=contro)
   second.tree<-rpart(relation_all, data=train)
-  pred1.tree<-predict(tree,newdata=testing, type='class')
+  pred1.tree<-predict(first.tree,newdata=testing, type='class')
   pred2.tree<-predict(second.tree, newdata=testing, type='class')
   mean1<-mean(as.character(pred1.tree)==testing[,dep])
   mean2<-mean(as.character(pred2.tree)==testing[,dep])
