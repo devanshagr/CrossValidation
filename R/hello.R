@@ -1,5 +1,6 @@
 cross_validate<-function(df,tree,n_iter,sr)
 {
+  df <- as.data.frame(df)
   library("rpart")
   #We will compare two models- predictor
   mean_subset<-c();
