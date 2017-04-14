@@ -29,5 +29,5 @@ cross_validate<-function(df,tree,n_iter,sr)
   mean_subset<-c(mean_subset,mean1)
   mean_all<-c(mean_all,mean2)
   } 
-  return (data.frame(mean_subset, mean_all))
+  return (data.frame(accuracy_subset=mean_subset,accuracy_all= mean_all))
 }
