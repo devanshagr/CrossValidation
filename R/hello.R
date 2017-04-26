@@ -21,6 +21,8 @@ cross_validate<-function(df,tree,n_iter,sr)
   train <- df[sample, ]
   testing  <- df[-sample, ]
   type = typeof(unlist(testing[dep])) 
+  first.tree<-rpart(relation_subset, data=train, control=contro)
+  second.tree<-rpart(relation_all, data=train)
   if(type=="double" | type=="integer"){
       pred1.tree<-predict(first.tree,newdata=testing)
       pred2.tree<-predict(second.tree, newdata=testing)
@@ -30,8 +32,6 @@ cross_validate<-function(df,tree,n_iter,sr)
       mean_all<-c(mean_all,mean2)
     }
   else{
-  first.tree<-rpart(relation_subset, data=train, control=contro)
-  second.tree<-rpart(relation_all, data=train)
   pred1.tree<-predict(first.tree,newdata=testing, type='class')
   pred2.tree<-predict(second.tree, newdata=testing, type='class')
   mean1<-mean(as.character(pred1.tree)==testing[,dep])
