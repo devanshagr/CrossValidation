@@ -20,6 +20,16 @@ cross_validate<-function(df,tree,n_iter,sr)
   sample <- sample.int(n = nrow(df), size = floor(sr*nrow(df)), replace = F)
   train <- df[sample, ]
   testing  <- df[-sample, ]
+  type = typeof(unlist(testing[dep])) 
+  if(type=="double" | type=="integer"){
+      pred1.tree<-predict(first.tree,newdata=testing)
+      pred2.tree<-predict(second.tree, newdata=testing)
+      mean1<-mean((as.numeric(pred1.tree)-testing[,dep])^2)
+      mean2<-mean((as.numeric(pred2.tree)-testing[,dep])^2)
+      mean_subset<-c(mean_subset,mean1)
+      mean_all<-c(mean_all,mean2)
+    }
+  else{
   first.tree<-rpart(relation_subset, data=train, control=contro)
   second.tree<-rpart(relation_all, data=train)
   pred1.tree<-predict(first.tree,newdata=testing, type='class')
@@ -28,6 +38,7 @@ cross_validate<-function(df,tree,n_iter,sr)
   mean2<-mean(as.character(pred2.tree)==testing[,dep])
   mean_subset<-c(mean_subset,mean1)
   mean_all<-c(mean_all,mean2)
+    }
   } 
   return (data.frame(accuracy_subset=mean_subset,accuracy_all= mean_all))
 }
