@@ -33,7 +33,7 @@ cross_validate <- function(df, tree, n_iter, split_ratio, method = 'class')
   for (i in 1:n_iter) {
     sample <-
       sample.int(n = nrow(df),
-                 size = floor(sr * nrow(df)),
+                 size = floor(split_ratio * nrow(df)),
                  replace = F)
     train <- df[sample,]
     testing  <- df[-sample,]
